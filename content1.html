@@ -50,7 +50,8 @@
     // Add an event listener for the text fields
     document.getElementById('textField1').addEventListener('input', handleTextFieldChange);
 
-    var wordsToReplace = ["cải thiện", "tình trạng", "lông" ,"mụn","giảm cân", "nám", "tổn thương", "viêm", "điều trị"];
+    var wordsToReplace =
+    ["cải thiện", "tình trạng", "lông", "mụn", "giảm cân", "nám", "tổn thương", "viêm", "điều trị", "biến chứng", "hoại tử", "nặng nề"];
 
     // Event handler function
     function handleTextFieldChange(event) {
@@ -81,40 +82,40 @@
     }
 
     function replaceWordsWithDot(inputString, wordsToReplace) {
-    function placeDotInsideWord(word) {
-       // Check if the word contains spaces
-       if (word.includes(' ')) {
-            // If it does, split the word into segments by spaces
-            var segments = word.split(' ');
 
-            // Place a dot inside each segment
-            var dottedSegments = segments.map(function (segment) {
-                // Generate a random position to place the dot within the segment
-                // var dotPosition = Math.floor(Math.random() * (segment.length + 1));
+        function placeDotInsideWord(word) {
+        // Check if the word contains spaces
+        if (word.includes(' ')) {
+                // If it does, split the word into segments by spaces
+                var segments = word.split(' ');
+
+                // Place a dot inside each segment
+                var dottedSegments = segments.map(function (segment) {
+                    // Generate a random position to place the dot within the segment
+                    // var dotPosition = Math.floor(Math.random() * (segment.length + 1));
+                    var dotPosition = 1 ;
+                    // Insert the dot at the random position
+                    return segment.slice(0, dotPosition) + '.' + segment.slice(dotPosition);
+                });
+
+                // Join the dotted segments back together with spaces
+                return dottedSegments.join(' ');
+            } else {
+                // If the word doesn't contain spaces, place a dot inside the word
+                // var dotPosition = Math.floor(Math.random() * (word.length +1))  ;
                 var dotPosition = 1 ;
-                // Insert the dot at the random position
-                return segment.slice(0, dotPosition) + '.' + segment.slice(dotPosition);
-            });
 
-            // Join the dotted segments back together with spaces
-            return dottedSegments.join(' ');
-        } else {
-            // If the word doesn't contain spaces, place a dot inside the word
-            // var dotPosition = Math.floor(Math.random() * (word.length +1))  ;
-            var dotPosition = 1 ;
-
-            return word.slice(0, dotPosition) + '.' + word.slice(dotPosition);
+                return word.slice(0, dotPosition) + '.' + word.slice(dotPosition);
+            }
         }
-    }
 
-    // Use a regular expression to match whole words
-    var regex = new RegExp("\\b(" + wordsToReplace.join("|") + ")\\b", "gi");
+        // Use a regular expression to match whole words
+        var regex = new RegExp("(" + wordsToReplace.join("|") + ")", "gi");
 
-    // Replace each matched word with the modified word containing a dot
-    var resultString = inputString.replace(regex, function (match) {
-        return placeDotInsideWord(match);
-    });
-
+        // Replace each matched word with the modified word containing a dot
+        var resultString = inputString.replace(regex, function (match) {
+            return placeDotInsideWord(match);
+        });
     return resultString;
 }   
 </script>
