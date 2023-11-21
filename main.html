@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Navigation Bar Example</title>
+    <style>
+        /* Để giữ nội dung ẩn khi ban đầu tải trang */
+        .content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Ân beaty</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#" onclick="loadContent('content1.html', 'content')">Censore</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="loadContent('content2.html', 'content')">Chính tả</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-3">
+    <div id="content">
+        <!-- Nội dung sẽ được load từ file -->
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<script>
+    // Hàm để load nội dung từ file và hiển thị trong phần tử có ID là 'content'
+    function loadContent(filePath, targetId) {
+        // Sử dụng jQuery để nạp nội dung từ file
+        $.get(filePath, function (data) {
+            // Ẩn tất cả nội dung trước khi hiển thị nội dung mới
+            $('.content').hide();
+            // Hiển thị nội dung trong phần tử có ID là 'content'
+            $('#' + targetId).html(data).show();
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        loadContent('content1.html', 'content');
+    });
+</script>
+
+</body>
+</html>

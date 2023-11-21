@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Field Event Handling</title>
+    <style>
+        /* Tùy chỉnh kích thước của các cột */
+        .vertical-fields .col-md-6 {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .plain-text-input {
+            height: 40px;
+        }
+
+        textarea {
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row vertical-fields">
+        <div class=" col-md-12 input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Văn bản gốc :</span>
+            </div>
+            <textarea class="form-control" aria-label="With textarea"  id="textField1"></textarea>
+        </div>
+
+        <div class=" col-md-12 input-group" style="margin-top: 50px;">
+            <div class="input-group-prepend">
+              <span class="input-group-text">sau khi chỉnh :</span>
+            </div>
+            <textarea class="form-control" aria-label="With textarea"  id="textField2"></textarea>
+        </div>
+        <div class=" col-md-12 input-group" style="margin-top: 30px;"  >
+            <button class="btn btn-primary mt-2 m-3" onclick="copyToClipboard('textField2')">Copy to Clipboard</button>
+            <button class="btn btn-primary mt-2 m-3" onclick="pasteFromClipboard('textField1')">Paste from Clipboard</button>    
+        </div>
+    
+    </div>
+ 
+</div>
+
+<script>
+    // Add an event listener for the text fields
+    document.getElementById('textField1').addEventListener('input', handleTextFieldChange);
+
+    var wordsToReplace = ["cải thiện", "tình trạng", "lông" ,"mụn","giảm cân", "nám", "tổn thương", "viêm", "điều trị"];
+
+    // Event handler function
+    function handleTextFieldChange(event) {
+        // Get the value of the changed text field
+        var changedValue = event.target.value;
+        var result = replaceWordsWithDot(changedValue,wordsToReplace);
+        var textField = document.getElementById('textField2');
+        textField.value = result;
+    }
+
+    function copyToClipboard(textFieldId) {
+        var textField = document.getElementById(textFieldId);
+        textField.select();
+        textField.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        textField.blur();
+        alert("Text from " + textFieldId + " copied to clipboard: " + textField.value);
+    }
+
+    function pasteFromClipboard(textFieldId) {
+        navigator.clipboard.readText().then(function (clipboardText) {
+            var textField = document.getElementById(textFieldId);
+            textField.value = clipboardText;
+            alert("Text pasted from clipboard to " + textFieldId + ": " + clipboardText);
+        }).catch(function (err) {
+            console.error('Failed to read clipboard contents: ', err);
+        });
+    }
+
+    function replaceWordsWithDot(inputString, wordsToReplace) {
+    function placeDotInsideWord(word) {
+       // Check if the word contains spaces
+       if (word.includes(' ')) {
+            // If it does, split the word into segments by spaces
+            var segments = word.split(' ');
+
+            // Place a dot inside each segment
+            var dottedSegments = segments.map(function (segment) {
+                // Generate a random position to place the dot within the segment
+                // var dotPosition = Math.floor(Math.random() * (segment.length + 1));
+                var dotPosition = 1 ;
+                // Insert the dot at the random position
+                return segment.slice(0, dotPosition) + '.' + segment.slice(dotPosition);
+            });
+
+            // Join the dotted segments back together with spaces
+            return dottedSegments.join(' ');
+        } else {
+            // If the word doesn't contain spaces, place a dot inside the word
+            // var dotPosition = Math.floor(Math.random() * (word.length +1))  ;
+            var dotPosition = 1 ;
+
+            return word.slice(0, dotPosition) + '.' + word.slice(dotPosition);
+        }
+    }
+
+    // Use a regular expression to match whole words
+    var regex = new RegExp("\\b(" + wordsToReplace.join("|") + ")\\b", "gi");
+
+    // Replace each matched word with the modified word containing a dot
+    var resultString = inputString.replace(regex, function (match) {
+        return placeDotInsideWord(match);
+    });
+
+    return resultString;
+}   
+</script>
+
+</body>
+</html>
