@@ -49,15 +49,25 @@
 <script>
     // Add an event listener for the text fields
     document.getElementById('textField1').addEventListener('input', handleTextFieldChange);
+ 
+    var keywords = [""];
 
-    var wordsToReplace =
-    ["cải thiện", "tình trạng", "lông", "mụn", "giảm cân", "nám", "tổn thương", "viêm", "điều trị", "biến chứng", "hoại tử", "nặng nề"];
+    // Đọc từ khóa từ tệp keywords.txt
+    function readKeywordsFromFile(filePath) {
+        try {
+            const fileContent = fs.readFileSync(filePath, 'utf-8');
+            return fileContent.split('\n').map(keyword => keyword.trim());
+        } catch (error) {
+            console.error('Error reading keywords from file:', error.message);
+            return [];
+        }
+    }
 
     // Event handler function
     function handleTextFieldChange(event) {
         // Get the value of the changed text field
         var changedValue = event.target.value;
-        var result = replaceWordsWithDot(changedValue,wordsToReplace);
+        var result = replaceWordsWithDot(changedValue,keywords);
         var textField = document.getElementById('textField2');
         textField.value = result;
     }
@@ -117,7 +127,33 @@
             return placeDotInsideWord(match);
         });
     return resultString;
-}   
+    }   
+
+    function readKeywordsFromFile(filePath, callback) {
+         fetch(filePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                const keywords = data.split('\n').map(keyword => keyword.trim());
+                callback(keywords);
+            })
+            .catch(error => {
+                console.error('Error reading keywords from file:', error.message);
+            });
+    }
+
+    readKeywordsFromFile('keywords.txt', function(k) {
+        keywords = k;
+         k.forEach((currentElement) => {
+            console.log(currentElement);
+        })
+
+    });
+
 </script>
 
 </body>
