@@ -4,6 +4,7 @@ acid
 aids
 an toàn 
 bap 
+bệnh 
 bd 
 bia
 biến chứng 
@@ -225,7 +226,7 @@ sâu rôm
 sẹo 
 sỏi mồ hôi
 sỏi thận
-th 
+thật
 thiếu máu
 thoái hóa cột sống
 thsbs 
